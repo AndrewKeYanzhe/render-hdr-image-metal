@@ -12,7 +12,7 @@
 //
 
 // let hdrMetadata = HDRMetaData(...)
-// 
+//
 // let layer: CAMetalLayer
 // layer.wantsExtendedDynamicRangeContent = true
 // layer.colorspace = CGColorSpace(name: CGColorSpace.extendedLinearDisplayP3)
@@ -27,10 +27,11 @@ public struct HDRMetaData {
     var ambientViewingEnvironment: AmbientViewingEnvironment?
 
     var EDRMetadata: CAEDRMetadata? {
-        if let displayData = masteringDisplayMetadata,
-           let contentData = contentLightMetadata
-        {
-            return CAEDRMetadata.hdr10(displayInfo: displayData.SEIData, contentInfo: contentData.SEIData, opticalOutputScale: 10000)
+        if let displayData = masteringDisplayMetadata {
+            if let contentData = contentLightMetadata {
+                return CAEDRMetadata.hdr10(displayInfo: displayData.SEIData, contentInfo: contentData.SEIData, opticalOutputScale: 10000)
+            }
+            return CAEDRMetadata.hdr10(minLuminance: displayData.min_luminance, maxLuminance: displayData.max_luminance, opticalOutputScale: 10000)
         }
 
         if let sei = ambientViewingEnvironment?.SEIData {
@@ -41,7 +42,7 @@ public struct HDRMetaData {
             }
         }
 
-        return CAEDRMetadata.hdr10(minLuminance: 0.1, maxLuminance: 1000, opticalOutputScale: 10000)
+        return nil
     }
 }
 
