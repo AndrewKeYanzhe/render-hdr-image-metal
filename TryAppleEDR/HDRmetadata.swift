@@ -26,14 +26,14 @@ public struct HDRMetaData {
     var contentLightMetadata: ContentLightMetadata?
     var ambientViewingEnvironment: AmbientViewingEnvironment?
 
-    var toEDRMetadata: CAEDRMetadata? {
+    var EDRMetadata: CAEDRMetadata? {
         if let displayData = masteringDisplayMetadata,
            let contentData = contentLightMetadata
         {
-            return CAEDRMetadata.hdr10(displayInfo: displayData.toSEIData(), contentInfo: contentData.toSEIData(), opticalOutputScale: 10000)
+            return CAEDRMetadata.hdr10(displayInfo: displayData.SEIData, contentInfo: contentData.SEIData, opticalOutputScale: 10000)
         }
 
-        if let sei = ambientViewingEnvironment?.toSEIData() {
+        if let sei = ambientViewingEnvironment?.SEIData {
             if #available(macOS 14.0, iOS 17.0, *) {
                 return CAEDRMetadata.hlg(ambientViewingEnvironment: sei)
             } else {
@@ -59,7 +59,7 @@ public struct MasteringDisplayMetadata {
 
     /// 转换为 apple EDR SEI 数据
     /// https://github.com/chromium/chromium/blob/main/ui/gfx/hdr_metadata_mac.mm
-    func toSEIData() -> Data? {
+    var SEIData: Data? {
         struct MasteringDisplayColorVolumeSEI {
             var primaries: (SIMD2<UInt16>, SIMD2<UInt16>, SIMD2<UInt16>) // GBR
             var white_point: SIMD2<UInt16>
@@ -105,7 +105,7 @@ public struct ContentLightMetadata {
 
     /// 转换为 apple EDR SEI 数据
     /// https://github.com/chromium/chromium/blob/main/ui/gfx/hdr_metadata_mac.mm
-    func toSEIData() -> Data? {
+    var SEIData: Data? {
         struct ContentLightLevelInfoSEI {
             var max_content_light_level: UInt16
             var max_frame_average_light_level: UInt16
@@ -134,7 +134,7 @@ public struct AmbientViewingEnvironment {
     let ambient_light_y: Float
 
     /// 转换为 apple EDR SEI 数据
-    func toSEIData() -> Data? {
+    var SEIData: Data? {
         struct AmbientViewingEnvironmentSEI {
             var ambient_illuminance: UInt32
             var ambient_light_x: UInt16
