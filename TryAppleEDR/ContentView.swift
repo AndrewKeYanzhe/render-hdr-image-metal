@@ -49,13 +49,13 @@ struct ContentView: View {
 //                        working
 //                        return sourceImage
                         
-                        let imageToScale = sourceImage
+                        // let imageToScale = sourceImage
                                 
-                        // Apply scaling
-                        let scale = 0.25 // For example, scale down to 50%
-                        let scaledImage = imageToScale.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+                        // // Apply scaling
+                        // let scale = 0.25 // For example, scale down to 50%
+                        // let scaledImage = imageToScale.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
                         
-                        return scaledImage
+                        return sourceImage
                     })
 
                     MetalView(renderer: renderer)
