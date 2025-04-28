@@ -47,7 +47,7 @@ final class Renderer: NSObject, MTKViewDelegate, ObservableObject {
         let dSize = view.drawableSize
         let backBounds = CGRect(x: 0, y: 0, width: dSize.width, height: dSize.height)
         // Render the image to the MTLTexture
-        context.render(image, to: drawable.texture, commandBuffer: commandBuffer, bounds: backBounds, colorSpace: CGColorSpace(name: CGColorSpace.extendedLinearDisplayP3)!)
+        context.render(image, to: drawable.texture, commandBuffer: commandBuffer, bounds: backBounds, colorSpace: CGColorSpace(name: CGColorSpace.extendedLinearITUR_2020)!)
 
         commandBuffer.present(drawable)
         commandBuffer.commit()

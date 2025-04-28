@@ -20,7 +20,7 @@ struct MetalView: ViewRepresentable {
         if let layer = view.layer as? CAMetalLayer {
             // Enable EDR with a color space that supports values greater than SDR.
             layer.wantsExtendedDynamicRangeContent = true
-            layer.colorspace = CGColorSpace(name: CGColorSpace.extendedLinearDisplayP3)
+            layer.colorspace = CGColorSpace(name: CGColorSpace.extendedLinearITUR_2020)
             layer.pixelFormat = MTLPixelFormat.rgba16Float
             // Ensure the render view supports pixel values in EDR.
             view.colorPixelFormat = MTLPixelFormat.rgba16Float

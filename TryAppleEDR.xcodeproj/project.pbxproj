@@ -16,6 +16,7 @@
 		DA9E54F12C23DF5600524AAA /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E54F02C23DF5600524AAA /* MetalView.swift */; };
 		DA9E54F32C23DF7A00524AAA /* ViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E54F22C23DF7A00524AAA /* ViewRepresentable.swift */; };
 		DA9E54F52C23DFCB00524AAA /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E54F42C23DFCB00524AAA /* Renderer.swift */; };
+		EBFAE0E22DBF5C970081098D /* your_hdr_image.avif in Resources */ = {isa = PBXBuildFile; fileRef = EBFAE0E12DBF5C970081098D /* your_hdr_image.avif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		DA9E54F02C23DF5600524AAA /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		DA9E54F22C23DF7A00524AAA /* ViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRepresentable.swift; sourceTree = "<group>"; };
 		DA9E54F42C23DFCB00524AAA /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		EBFAE0E12DBF5C970081098D /* your_hdr_image.avif */ = {isa = PBXFileReference; lastKnownFileType = file; path = your_hdr_image.avif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 		DA9E54E82C23DCF500524AAA /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				EBFAE0E12DBF5C970081098D /* your_hdr_image.avif */,
 				DA9E54E92C23DCF500524AAA /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -142,6 +145,7 @@
 			files = (
 				DA9E54EA2C23DCF500524AAA /* Preview Assets.xcassets in Resources */,
 				DA9E54E72C23DCF500524AAA /* Assets.xcassets in Resources */,
+				EBFAE0E22DBF5C970081098D /* your_hdr_image.avif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

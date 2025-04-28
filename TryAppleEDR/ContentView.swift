@@ -17,7 +17,7 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            CircleView()
+//            CircleView()
 
             #if os(macOS)
             Text("Current Screen: \(NSScreen.main!.localizedName)")
@@ -26,22 +26,44 @@ struct ContentView: View {
             VStack {
                 GeometryReader { geometry in
                     let renderer = Renderer(imageProvider: { (scaleFactor: CGFloat, _: CGFloat, potentialEDRHeadroom: CGFloat) -> CIImage in
-                        let windowSize = geometry.size
-
-                        // Define the size of the square
-                        let pixelSize = CGSize(width: windowSize.width * scaleFactor, height: windowSize.height * scaleFactor)
-                        // Create a rounded rectangle
-                        let roundedRectangleGenerator = CIFilter.roundedRectangleGenerator()
-                        roundedRectangleGenerator.color = CIColor(red: headroom, green: headroom, blue: headroom, colorSpace: CGColorSpace(name: CGColorSpace.extendedLinearDisplayP3)!)!
-                        roundedRectangleGenerator.extent = CGRect(origin: .zero, size: pixelSize)
-                        roundedRectangleGenerator.radius = 0
-                        return roundedRectangleGenerator.outputImage!
+                        // Load the HDR image from the app bundle
+                        guard let url = Bundle.main.url(forResource: "your_hdr_image", withExtension: "avif"),
+                              let sourceImage = CIImage(contentsOf: url) else {
+                            fatalError("HDR image not found.")
+                        }
+                        
+                        // Define the source PQ BT.2020 color space and destination Linear BT.2020
+                        let pqBT2020 = CGColorSpace(name: CGColorSpace.itur_2100_PQ)!
+                        let linearBT2020 = CGColorSpace(name: CGColorSpace.linearITUR_2020)!
+                        
+                        // Apply real PQ to Linear decoding
+//                        let decodedImage = sourceImage.applyingFilter("CIColorSpaceConversion", parameters: [
+//                            "inputSourceSpace": pqBT2020,
+//                            "inputDestinationSpace": linearBT2020
+//                        ])
+                        
+                        
+                        
+//                        return decodedImage
+                        
+//                        working
+//                        return sourceImage
+                        
+                        let imageToScale = sourceImage
+                                
+                        // Apply scaling
+                        let scale = 0.25 // For example, scale down to 50%
+                        let scaledImage = imageToScale.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+                        
+                        return scaledImage
                     })
 
                     MetalView(renderer: renderer)
                 }
+//                .frame(height: 1000) // You might want bigger than 30 for showing an HDR image
+
             }
-            .frame(height: 30)
+//            .frame(height: 1000)
 
             Slider(
                 value: $headroom,
