@@ -60,7 +60,7 @@ struct ContentView: View {
 
                     MetalView(renderer: renderer)
                 }
-//                .frame(height: 1000) // You might want bigger than 30 for showing an HDR image
+                .frame(height: 500) // You might want bigger than 30 for showing an HDR image
 
             }
 //            .frame(height: 1000)
