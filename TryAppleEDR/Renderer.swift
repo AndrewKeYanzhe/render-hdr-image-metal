@@ -2,7 +2,6 @@ import CoreImage
 import Metal
 import MetalKit
 import SwiftUI
-import AVFoundation
 
 final class Renderer: NSObject, MTKViewDelegate, ObservableObject {
     public let device: MTLDevice?
@@ -43,24 +42,24 @@ final class Renderer: NSObject, MTKViewDelegate, ObservableObject {
         descriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1)
 
         let dSize = view.drawableSize
-        let drawableRect = CGRect(x: 0, y: 0, width: dSize.width, height: dSize.height)
+        let bounds = CGRect(x: 0, y: 0, width: dSize.width, height: dSize.height)
 
-        // Calculate how the image should fit into the drawable
-        let fittedRect = AVMakeRect(aspectRatio: image.extent.size, insideRect: drawableRect)
+        // Stretch the cached image to fill the drawable
+        let targetImage = image
+            .transformed(by: CGAffineTransform(scaleX: bounds.width / image.extent.width,
+                                               y: bounds.height / image.extent.height))
 
-        // Render the original CIImage into the fitted rectangle
         context.render(
-            image,
+            targetImage,
             to: drawable.texture,
             commandBuffer: commandBuffer,
-            bounds: fittedRect,
+            bounds: bounds,
             colorSpace: CGColorSpace(name: CGColorSpace.extendedLinearITUR_2020)!
         )
 
         commandBuffer.present(drawable)
         commandBuffer.commit()
     }
-
 
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         // No need to re-cache!
