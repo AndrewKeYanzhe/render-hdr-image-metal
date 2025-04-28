@@ -1,4 +1,8 @@
-# TryAppleEDR
+# render-hdr-image-metal
+
+Works on macOS Sequoia but not Sonoma
+
+# original readme
 
 I recently tried using Core Image, Metal to create HDR content in SwiftUI, which is what I discovered.
 
