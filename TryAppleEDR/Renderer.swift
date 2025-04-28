@@ -32,34 +32,44 @@ final class Renderer: NSObject, MTKViewDelegate, ObservableObject {
     }
 
     func draw(in view: MTKView) {
-        guard let drawable = view.currentDrawable,
-              let descriptor = view.currentRenderPassDescriptor,
-              let commandBuffer = commandQueue?.makeCommandBuffer(),
-              let image = cachedImage else {
-            return
-        }
-
-        descriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1)
-
-        let dSize = view.drawableSize
-        let bounds = CGRect(x: 0, y: 0, width: dSize.width, height: dSize.height)
-
-        // Stretch the cached image to fill the drawable
-        let targetImage = image
-            .transformed(by: CGAffineTransform(scaleX: bounds.width / image.extent.width,
-                                               y: bounds.height / image.extent.height))
-
-        context.render(
-            targetImage,
-            to: drawable.texture,
-            commandBuffer: commandBuffer,
-            bounds: bounds,
-            colorSpace: CGColorSpace(name: CGColorSpace.extendedLinearITUR_2020)!
-        )
-
-        commandBuffer.present(drawable)
-        commandBuffer.commit()
+    guard let drawable = view.currentDrawable,
+          let descriptor = view.currentRenderPassDescriptor,
+          let commandBuffer = commandQueue?.makeCommandBuffer(),
+          let image = cachedImage else {
+        return
     }
+
+    descriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1)
+
+    let dSize = view.drawableSize
+    let bounds = CGRect(x: 0, y: 0, width: dSize.width, height: dSize.height)
+
+    // Calculate scale factors to maintain aspect ratio
+    let widthScale = bounds.width / image.extent.width
+    let heightScale = bounds.height / image.extent.height
+    let scale = min(widthScale, heightScale)
+
+    // Calculate the centered position
+    let scaledWidth = image.extent.width * scale
+    let scaledHeight = image.extent.height * scale
+    let xOffset = (bounds.width - scaledWidth) / 2
+    let yOffset = (bounds.height - scaledHeight) / 2
+
+    let targetImage = image
+        .transformed(by: CGAffineTransform(scaleX: scale, y: scale)
+                        .translatedBy(x: xOffset / scale, y: yOffset / scale))
+
+    context.render(
+        targetImage,
+        to: drawable.texture,
+        commandBuffer: commandBuffer,
+        bounds: bounds,
+        colorSpace: CGColorSpace(name: CGColorSpace.extendedLinearITUR_2020)!
+    )
+
+    commandBuffer.present(drawable)
+    commandBuffer.commit()
+}
 
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         // No need to re-cache!
