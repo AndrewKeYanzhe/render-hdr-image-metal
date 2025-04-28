@@ -12,7 +12,7 @@ struct MetalView: ViewRepresentable {
         view.delegate = renderer
         
         // Suggest to Core Animation, through MetalKit, how often to redraw the view.
-        view.preferredFramesPerSecond = 10
+        view.preferredFramesPerSecond = 60
         
         // Allow Core Image to render to the view using Metal's compute pipeline.
         view.framebufferOnly = false
