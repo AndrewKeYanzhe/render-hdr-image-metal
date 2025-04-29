@@ -25,6 +25,7 @@ struct ContentView: View {
 
             VStack {
                 GeometryReader { geometry in
+                    // renderer instance created
                     let renderer = Renderer(imageProvider: { (scaleFactor: CGFloat, _: CGFloat, potentialEDRHeadroom: CGFloat) -> CIImage in
                         // Load the HDR image from the app bundle
                         guard let url = Bundle.main.url(forResource: "your_hdr_image", withExtension: "avif"),
@@ -57,6 +58,7 @@ struct ContentView: View {
                         
                         return sourceImage
                     })
+                    //The Renderer instance is then passed to the MetalView:
 
                     MetalView(renderer: renderer)
                 }
