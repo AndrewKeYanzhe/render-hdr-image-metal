@@ -2,6 +2,9 @@
 
 Works on macOS Sequoia but not Sonoma
 
+-  Shows HDR AVIF using metal
+-  Current bug: EXC_BAD_ACCESS happens randomly after a while, on 8 GB Macbook Air. Issue cannot be replicated on MBP 16 M1 Pro with 32 GB RAM.
+
 # original readme
 
 I recently tried using Core Image, Metal to create HDR content in SwiftUI, which is what I discovered.
